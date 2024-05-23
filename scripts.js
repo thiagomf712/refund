@@ -6,6 +6,9 @@ const categoryInput = document.querySelector('#category')
 
 const expensesListElement = document.querySelector('ul')
 
+const totalExpensesElement = document.querySelector('aside > header > p > span')
+const totalAmountElement = document.querySelector('aside > header > h2')
+
 amountInput.oninput = () => {
   let value = amountInput.value.replace(/\D/g, '')
 
@@ -70,9 +73,42 @@ function addExpense(newExpense) {
     expenseItem.append(expenseIcon, expenseInfo, expenseAmount, removeIcon)
 
     expensesListElement.append(expenseItem)
+
+    updateSummary()
   } catch (error) {
     alert('Não foi possível adicionar a despesa. Tente novamente mais tarde.')
 
     console.error(error)
+  }
+}
+
+function updateSummary() {
+  try {
+    const items = expensesListElement.children
+
+    totalExpensesElement.textContent =
+      items.length > 1 ? `${items.length} despesas` : `${items.length} despesa`
+
+    let totalAmount = 0
+
+    for (let item of items) {
+      const amount = item.querySelector('.expense-amount').textContent
+
+      const value = parseInt(amount.replace(/[^\d]/g, '')) / 100
+
+      if (isNaN(value)) {
+        return alert('Não foi possível calcular o valor total.')
+      }
+
+      totalAmount += value
+    }
+
+    totalAmountElement.innerHTML = `<small>R$</small>${totalAmount
+      .toFixed(2)
+      .replace('.', ',')}`
+  } catch (error) {
+    alert('Não foi possível atualizar o resumo. Tente novamente mais tarde.')
+
+    console.log(error)
   }
 }
