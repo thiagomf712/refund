@@ -75,6 +75,8 @@ function addExpense(newExpense) {
     expensesListElement.append(expenseItem)
 
     updateSummary()
+
+    clearInputs()
   } catch (error) {
     alert('Não foi possível adicionar a despesa. Tente novamente mais tarde.')
 
@@ -122,3 +124,11 @@ expensesListElement.addEventListener('click', (event) => {
     updateSummary()
   }
 })
+
+function clearInputs() {
+  expenseInput.value = ''
+  amountInput.value = ''
+  categoryInput.value = ''
+
+  expenseInput.focus()
+}
