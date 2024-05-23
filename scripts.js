@@ -112,3 +112,13 @@ function updateSummary() {
     console.log(error)
   }
 }
+
+expensesListElement.addEventListener('click', (event) => {
+  const clickedElement = event.target
+
+  if (clickedElement.classList.contains('remove-icon')) {
+    clickedElement.closest('.expense').remove()
+
+    updateSummary()
+  }
+})
